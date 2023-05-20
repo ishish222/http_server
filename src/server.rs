@@ -1,6 +1,7 @@
 use std::net::TcpListener;
 use std::io::Read;
 use crate::http::Request;
+use std::convert::TryFrom;
 
 pub struct Server {
     addr: String,
