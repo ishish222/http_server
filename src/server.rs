@@ -1,5 +1,5 @@
 use std::net::TcpListener;
-use std::io::Read;
+use std::io::{Read, Write};
 use crate::http::Request;
 use std::convert::TryFrom;
 
@@ -30,6 +30,13 @@ impl Server {
                             {
                                 Ok(request) => {
                                     dbg!(request);
+                                    let bytes = "HTTP/1.1 200 OK\r\nContent-Length: 4\r\nContent-Type: text/plain\r\n\r\ntest\r\n\r\n".as_bytes();
+                                    match stream.write(bytes) {
+                                        Ok(_) => {
+                                            println!("Responded")
+                                        },
+                                        Err(e) => println!("Failed to parse: {}", e)
+                                    }
                                 },
                                 Err(e) => println!("Failed to parse: {}", e),
                             }
