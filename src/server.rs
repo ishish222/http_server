@@ -2,6 +2,10 @@ use std::net::TcpListener;
 use std::io::{Read, Write};
 use crate::http::Request;
 use std::convert::TryFrom;
+use crate::http::{
+    Response,
+    StatusCode,
+};
 
 pub struct Server {
     addr: String,
@@ -30,13 +34,9 @@ impl Server {
                             {
                                 Ok(request) => {
                                     dbg!(request);
-                                    let bytes = "HTTP/1.1 200 OK\r\nContent-Length: 4\r\nContent-Type: text/plain\r\n\r\ntest\r\n\r\n".as_bytes();
-                                    match stream.write(bytes) {
-                                        Ok(_) => {
-                                            println!("Responded")
-                                        },
-                                        Err(e) => println!("Failed to parse: {}", e)
-                                    }
+                                    let response = Response::new(StatusCode::Ok, Some("<h1>IT WORKS!!!</h1>".to_string()));
+                                    response.send(&mut stream);
+
                                 },
                                 Err(e) => println!("Failed to parse: {}", e),
                             }
