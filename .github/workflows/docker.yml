@@ -35,5 +35,6 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
         TEST: test
       run: |
+        IMAGE_TAG=$(echo ${IMAGE_TAG:0:8})
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
